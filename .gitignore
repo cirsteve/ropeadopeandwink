@@ -1,0 +1,5 @@
+settings.py
+local_settings.py
+*.pyc
+*~
+rdwdb.db

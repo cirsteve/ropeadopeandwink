@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}blueprint/print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}style.css" type="text/css" media="screen" />
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="{{ STATIC_URL }}blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script> 
+  
+    <title>{% block title-tag %}Rope A Dope And Wink{% endblock %}</title>
+</head>
+
+<div class="container">
+<body>
+<div id="top-header" class="span-24">
+    <div id="main-title" class="span-10">
+	    <a href='/'><h1>Rope A Dope And Wink</h1></a>
+    </div>
+
+    
+    <div id="main-nav" class="span-11 right">
+        <ul>
+	        <li><a href="{% url entry_list %}">Blog</a> |</li>
+	        <li><a href="/steven-ciraolo/">Portfolio and Contact</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div id="sectionhead" class="span-14">
+	{% block sectionhead %}{% endblock %}
+</div>
+
+<div id="short-description" class="span-8 right">
+    
+    <p>"come with me and you'll be in a world of pure imagination"</p>
+
+    <p id="contact-trigger">Feedback and criticism encouraged.</p>
+
+</div>
+
+        <form  id="contact-form" class="right hidden" action="/contact/json-contact/" method="POST">{% csrf_token %}
+        
+            
+        
+            
+            <input type="submit" value="Submit" />
+        
+        </form>
+
+
+
+<div id="content" class="span-14">
+    {% block content %}{% endblock %}
+</div>
+
+<div id="sidebar" class="span-8 colborder last right">
+	{% block sidebar %}{% endblock %}
+</div>
+    
+<div id="footer">
+    {% block footer %}
+    <hr>
+
+    {% endblock %}
+</div>
+
+<script type="text/javascript">
+var cl = {{ contactform.as_p }}
+jQuery('#contact-trigger').onclick(function(){
+    jQuery('form#contact-form').append(cl).removeClass('hidden');
+});
+
+jQuery('form#contact-form').append('cl').removeClass('hidden');
+</script>
+
+{% block footer-scripts %}
+           
+{% endblock %}
+
+</body>
+</div>
+</html>

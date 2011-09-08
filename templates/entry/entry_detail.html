@@ -1,0 +1,77 @@
+{% extends "entry_base.html" %}
+{% load tagging_tags %}
+{% load comments %}
+{% load markup %}
+
+{% block title-tag %}{{ entry.title }} | Rope A Dope And Wink{% endblock %}
+
+{% block content %}
+    <h2>{{ entry.title }}</h2>
+
+    <div id="entry-category">
+
+    <h4>Published {{ entry.date|date:"d-m-y" }} in </h4> <a href={{ entry.category.get_absolute_url }}>{{ entry.category }}</a>
+    </div>
+
+    <div id="entry-tags">
+        <h4>Tags:</h4>
+        {% tags_for_object entry as tags %}
+        {% if tags %}
+            <ul>
+            {% for tag in tags %}
+    
+                <li><a href='{% url entry_tag_detail tag.id %}'>{{ tag.name }}</a></li>
+    
+            {% endfor %}
+            </ul>
+        {% else %}
+        <ul>
+            <li>No Tags For This Post</li>
+        </ul>
+
+        {% endif %}
+    </div>
+
+    <br />
+
+    <div id="article">
+    {{ entry.body|markdown }}
+
+    {% if entry.image %}
+        <img src="{{ MEDIA_URL}}{{ entry.image }}" />
+    {% endif %}
+        
+    </div>
+
+     <hr />
+    
+
+    {% get_comment_count for entry as c_count %}
+
+    <h3>Public Comments</h3>
+
+    {% if c_count > 0 %}
+        {% render_comment_list for entry %}
+
+    {% else %}
+
+        <p>No comments, add yours to get the conversation started</p>
+   
+ {% endif %}
+
+        <div id="comment-form">
+        <h3>Add A Comment</h3>
+        {% render_comment_form for entry %}
+        </div>
+    
+{% endblock %}
+
+{% block footer-scripts %}
+<script type="text/Javascript">
+
+jQuery('#article p:eq(0)').css('font-style','italic');
+
+</script>
+
+
+{% endblock %}

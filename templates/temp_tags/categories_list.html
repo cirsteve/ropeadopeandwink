@@ -1,0 +1,11 @@
+
+
+<ul>
+{% for cat in cats %}
+
+    <li><a href="{{ cat.get_absolute_url }}/">{{ cat.name }}</a> ({{ cat.entry_set.count }})</li>
+
+{% endfor %}
+</ul>
+
+

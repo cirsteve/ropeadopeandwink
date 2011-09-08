@@ -1,0 +1,6 @@
+<h3>Category Lists</h3>
+{% for cat in cats %}
+<ul>
+    <li><a href="{{ cat.get_absolute_url }}/">{{ cat.name }}</a></li>
+</ul>
+{% endfor %}

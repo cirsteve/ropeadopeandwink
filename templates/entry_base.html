@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load tagging_tags %}
+{% load entry_tags %}
+
+{% block sidebar %}
+
+    <div id="recent-posts">
+
+        <div class="sidebar-header">
+
+            <h3>Recent Posts</h3>
+
+        </div>
+
+    </div>
+
+    {% recent_posts %}
+    
+    <div id="category-list">
+
+        <div class="sidebar-header">
+        
+            <h3>Categories</h3>
+    
+        </div>
+
+             {% cat_list %}
+
+    </div>
+
+    <div class="tag-list">
+
+    <div class="sidebar-header">
+	
+        <h3>Tags:</h3>
+    
+    </div>
+	
+    {% tag_cloud_for_model entry.Entry as tagc %}
+    
+    <ul>
+	
+    {% for tag in tagc %}
+		<li><a href='{% url entry_tag_detail tag.id %}'>{{ tag.name }}</a></li>
+	{% endfor %}
+    </ul>
+    </div>
+{% endblock %}
+
+{% block sectionhead %}
+<div id="section-head">
+	<h2>Blog</h2>
+
+
+	<ul>
+		<li>
+            <a href="{% url entry_category_list %}">Categories</a>
+
+           
+        </li>
+
+		<li><a href="{% url entry_tag_list %}">Tags</a></li>
+	</ul>
+
+
+
+    
+</div>
+{% endblock %}
+
+{% block footer-scripts %}
+<script type="text/Javascript">
+
+jQuery('li.hoverParentMenu').mouseover(function(){
+    jQuery('.hoverSubMenu').append();
+});
+</script>
+{% endblock %}

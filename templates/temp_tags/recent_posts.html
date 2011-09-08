@@ -1,0 +1,10 @@
+
+
+{% for p in recent_posts %}
+<ul>
+    <li>
+    <b><a href="{{ p.get_absolute_url }}/">{{ p.title }}</a></b>
+    <p>Published {{ p.date|date:"d/m/y" }} in {{ p.category }}</p>
+    </li>
+</ul>
+{% endfor %}

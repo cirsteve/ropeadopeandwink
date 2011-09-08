@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title-tag %}Steven Ciraolo | Rope A Dope And Wink{% endblock %}
+{% block sidebar %}
+<div id="contact-form">
+<div class="sidebar-header">
+<h3>Contact Me</h3>
+</div>
+<p>Let me know what you think</p>
+    <form  action="{{ url json-contact }}" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="bio-page">
+    <h2>Testing ground and idea dump for Steven Ciraolo.</h2>
+    
+    <p>The potential for change represented by the internet and other ongoing innovations in the communications has the potential to make Johannes Gutenberg's impact look like Steve Gutenberg's on cinema. I would like to be a part of that innovation.<p>
+    <p>I created this blog with tremendous assistance from the django web framework along with several other open source technologies including but not limited to:</p>
+    <ul>
+        <li>Ubunutu</li>
+        <li>Apache and Nginx servers</li>
+        <li>PostgresSQL and MemCached</li>
+        <li>jQuery and BluePrint CSS</li>
+    </ul>
+    <br>
+   <h3>What I Am Working On</h3>
+   <p>The code for some of my efforts including this site can be seen at <a href="http://github.com/cirsteve/">Github</a></p>
+
+</div>
+{% endblock %}
