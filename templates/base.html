@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="{{ STATIC_URL }}blueprint/screen.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}blueprint/print.css" type="text/css" media="print" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
   <!--[if lt IE 8]>
     <link rel="stylesheet" href="{{ STATIC_URL }}blueprint/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
@@ -34,22 +34,28 @@
 	{% block sectionhead %}{% endblock %}
 </div>
 
-<div id="short-description" class="span-8 right">
+<div id="short-description" class="span-8 colborder right">
     
-    <p>"come with me and you'll be in a world of pure imagination"</p>
+    <p>"come with me and you'll be in a world of pure imagination"- W. Wonka</p>
 
-    <p id="contact-trigger">Feedback and criticism encouraged.</p>
+
+    <a id="contact-trigger">Feedback and criticism encouraged.</a>
+
+<form class="nidden colborder right" id="json-contact-base" action="{% url json-contact %}" method="post">{% csrf_token %}
+        <div id="jsonwrapper">
+
+
+
+        {{ contactform.non_field_errors }}
+        {{ contactform.as_p }}
+        <input id ="formsubmit" type="submit" value="Submit" />
+        </div>
+
+</form>
 
 </div>
 
-        <form  id="contact-form" class="right hidden" action="/contact/json-contact/" method="POST">{% csrf_token %}
-        
-            
-        
-            
-            <input type="submit" value="Submit" />
-        
-        </form>
+
 
 
 
@@ -57,7 +63,7 @@
     {% block content %}{% endblock %}
 </div>
 
-<div id="sidebar" class="span-8 colborder last right">
+<div id="sidebar" class="span-8 colborder right">
 	{% block sidebar %}{% endblock %}
 </div>
     
@@ -68,18 +74,37 @@
     {% endblock %}
 </div>
 
-<script type="text/javascript">
-var cl = {{ contactform.as_p }}
-jQuery('#contact-trigger').onclick(function(){
-    jQuery('form#contact-form').append(cl).removeClass('hidden');
-});
-
-jQuery('form#contact-form').append('cl').removeClass('hidden');
-</script>
-
 {% block footer-scripts %}
+
+
            
 {% endblock %}
+
+<script type="text/javascript">
+
+jQuery('#contact-trigger').click(function() {
+    jQuery('#json-contact-base').toggleClass('nidden');
+});
+
+jQuery(function() {
+      var form = jQuery("#json-contact-base");
+      form.submit(function(e) {
+          jQuery("#formsubmit").attr('disabled', true)
+          jQuery("#contact-trigger").prepend('<span>Sending message, please wait... </span>')
+          jQuery("#jsonwrapper").load(
+              form.attr('action') + ' #jsonwrapper',
+              form.serializeArray(),
+              function(responseText, responseStatus) {
+                  jQuery("#formsubmit").attr('disabled', false)
+                  jQuery("#json-contact-base")[0].reset()
+                  jQuery("#json-contact-base").addClass('nidden')
+                  jQuery("#contact-trigger").html('<b>Your Message Was Sent</b>')
+              }
+          );
+          e.preventDefault(); 
+      });
+  });
+</script>
 
 </body>
 </div>

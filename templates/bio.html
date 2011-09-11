@@ -5,10 +5,17 @@
 <div class="sidebar-header">
 <h3>Contact Me</h3>
 </div>
-<p>Let me know what you think</p>
-    <form  action="{{ url json-contact }}" method="post">{% csrf_token %}
+
+    <form  id="json-contact-form" action="{% url json-contact %}" method="post">{% csrf_token %}
+        <div id="jsonwrapper">
+
+        <p id="jsontarget">Let me know what you think</p>
+
+        {{ form.non_field_errors }}
         {{ form.as_p }}
-        <input type="submit" value="Submit" />
+        
+        </div>
+        <input id ="formsubmit" type="submit" value="Submit" />
     </form>
 </div>
 
@@ -21,7 +28,7 @@
 <div id="bio-page">
     <h2>Testing ground and idea dump for Steven Ciraolo.</h2>
     
-    <p>The potential for change represented by the internet and other ongoing innovations in the communications has the potential to make Johannes Gutenberg's impact look like Steve Gutenberg's on cinema. I would like to be a part of that innovation.<p>
+    <p>The potential for change represented by the internet and other ongoing innovations in communications has the potential to make Johannes Gutenberg's impact look like Steve Gutenberg's on cinema. I would like to be a part of that innovation.<p>
     <p>I created this blog with tremendous assistance from the django web framework along with several other open source technologies including but not limited to:</p>
     <ul>
         <li>Ubunutu</li>
@@ -34,4 +41,27 @@
    <p>The code for some of my efforts including this site can be seen at <a href="http://github.com/cirsteve/">Github</a></p>
 
 </div>
+{% endblock %}
+
+
+{% block footer-scripts %}
+<script type="text/javascript">
+jQuery(function() {
+      var form = jQuery("#json-contact-form");
+      form.submit(function(e) {
+          jQuery("#formsubmit").attr('disabled', true)
+          jQuery("#jsontarget").prepend('<span>Sending message, please wait... </span>')
+          jQuery("#jsonwrapper").load(
+              form.attr('action') + ' #jsonwrapper',
+              form.serializeArray(),
+              function(responseText, responseStatus) {
+                  jQuery("#formsubmit").attr('disabled', false)
+                  jQuery("#jsonwrapper").html('<b>Your Message Was Sent</b>')
+              }
+          );
+          e.preventDefault(); 
+      });
+  });
+</script>
+
 {% endblock %}
