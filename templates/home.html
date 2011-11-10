@@ -1,7 +1,81 @@
-{% extends "base.html" %}
-{% load tagging_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
 
-{% block content %}
-	<h2>Welcome to RDW</h2>
-	<p>Take some time to explore</p>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> 
+  
+    <title>{% block title-tag %}Rope A Dope And Wink{% endblock %}</title>
+</head>
+
+<div class="container">
+<body>
+<div id="top-header">
+    <div id="main-title" class="span-10">
+        <a href='/'><h1>Rope A Dope And Wink</h1></a>
+    </div>
+
+    
+    <div id="main-nav" class="span-11 right">
+        <ul>
+            <li><a href="{% url entry_list %}">Blog</a> |</li>
+            <li><a href="/steven-ciraolo/">Portfolio and Contact</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="outer-ring" class="span-24">
+  <div id="ring">
+    <h2 id="rdwink">Rope a Dope<br />and <div id="wink">Wink</div></h2>
+  </div>
+</div>
+
+
+
+
+
+<div id="content" class="span-14">
+    {% block content %}{% endblock %}
+</div>
+
+
+    
+<div id="footer">
+    {% block footer %}
+    <hr>
+
+    {% endblock %}
+</div>
+
+{% block footer-scripts %}
+
+
+           
 {% endblock %}
+
+<script type="text/javascript">
+
+jQuery('#ring').mouseover(function() {
+    var directions = [];
+    var index = 0;
+    directions[0] = "up";
+    directions[1] = "down";
+    directions[2] = "left";
+    directions[3] = "right";
+    index = Math.floor(Math.random() * 4);
+    var dir = directions[index];
+    $('#rdwink').effect("bounce", { times:2, direction:dir }, 200);
+});
+
+
+</script>
+
+</body>
+</div>
+</html>

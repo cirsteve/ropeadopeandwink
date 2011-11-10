@@ -3,12 +3,12 @@
 {% block content %}
 
     <div class="entry-list">
-	<h3>Articles</h3>
+	<h2>Articles</h2>
 		<ul>
 			{% for entry in entry_list %}
 				<li>
                     <a href={{ entry.get_absolute_url }}>{{ entry.title }}</a>
-                    <p>Filed Under <a href={{ entry.category.get_absolute_url }}>{{ entry.category }}</a></p>
+                    <p>Posted {{ entry.date|date:"d/m/Y" }} under <a href={{ entry.category.get_absolute_url }}>{{ entry.category }}</a></p>
                 </li>
 			{% endfor %}
 		</ul>

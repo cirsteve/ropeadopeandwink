@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> 
+   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    <title>{% block title-tag %}Rope A Dope And Wink{% endblock %}</title>
+</head>
+
+<div class="container">
+<body>
+<div id="top-header">
+    <div id="main-title" class="span-10">
+        <a href='/'><h1>Rope A Dope And Wink</h1></a>
+    </div>
+
+    
+    <div id="main-nav" class="span-11 right">
+        <ul>
+            <li><a href="{% url entry_list %}">Blog</a> |</li>
+            <li><a href="/steven-ciraolo/">Portfolio and Contact</a></li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div id="content" class="span-5">
+    <h2 class="where">Where in the world am I?</h2>
+    <button id="geo">Click to Find Out</button>
+</div>
+
+        <div id="gmap" style="width:600px; height:500px; float:right;">
+        </div>
+    
+<div id="footer">
+    {% block footer %}
+    <hr>
+
+    {% endblock %}
+</div>
+
+{% block footer-scripts %}
+
+
+           
+{% endblock %}
+
+<script type="text/javascript">
+
+$('#geo').bind('click', function(){
+  navigator.geolocation.getCurrentPosition(getMap);
+});
+
+function getAddy(latlong){
+  var gc = new google.maps.Geocoder();
+  gc.geocode({'latLng': latlong}, function(result,status){
+      if (status == google.maps.GeocoderStatus.OK) {
+        $('#content').append('<p>' + result[0]["formatted_address"] + '</p>');
+        }
+      else {
+        alert('Errooooorrrrr' + status);
+       }
+  });
+}
+
+function show_map(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  alert(latitude + '  ' + longitude)
+}
+
+function getMap(position) {
+    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var myOptions = {
+      zoom: 13,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("gmap"),
+        myOptions);
+    var marker = new google.maps.Marker({
+      position: latlng, 
+      map: map
+    });
+    $('#geo').replaceWith('<p>lat:' + position.coords.latitude + ' long:' + position.coords.longitude + '</p>');
+    getAddy(latlng);
+}
+
+
+function placeMarker(location) {
+  var marker = new google.maps.Marker({
+      position: location, 
+      map: map
+  });
+}
+</script>
+
+</body>
+</div>
+</html>
