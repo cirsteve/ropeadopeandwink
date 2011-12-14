@@ -11,6 +11,8 @@ li {
     font-size:1.25em
 }
 
+#main-title a { text-decoration: none;}
+
 h2 {
     color: #08295C
 }
@@ -133,7 +135,7 @@ h2 {
 .sidebar-header h3 {
     text-align: center;
     color: #9FA49B;
-    font-size: 1.3em;
+    font-size: 1.1em;
     margin: 0px;
     background-color: #08295C;
     border-bottom: dashed #9FA49B;
@@ -145,7 +147,7 @@ h2 {
 }
 
 #content a {
-    font-size: 1.25em
+    font-size: 1em;
 }
 
 #content h2 {

@@ -1,6 +1,5 @@
 {% extends "entry_base.html" %}
 {% load tagging_tags %}
-{% load comments %}
 {% load markup %}
 
 {% block title-tag %}{{ entry.title }} | Rope A Dope And Wink{% endblock %}
@@ -8,19 +7,19 @@
 {% block content %}
     <h2>{{ entry.title }}</h2>
 
-    <div id="entry-category">
+    <div class="entry-info">
 
     <h4>Published {{ entry.date|date:"d-m-y" }} in </h4> <a href={{ entry.category.get_absolute_url }}>{{ entry.category }}</a>
-    </div>
+    
 
-    <div id="entry-tags">
+    <div>
         <h4>Tags:</h4>
         {% tags_for_object entry as tags %}
         {% if tags %}
-            <ul>
+            <ul class="tag-list">
             {% for tag in tags %}
     
-                <li><a href='{% url entry_tag_detail tag.id %}'>{{ tag.name }}</a></li>
+                <a href='{% url entry_tag_detail tag.id %}'><li>{{ tag.name }}</li></a>
     
             {% endfor %}
             </ul>
@@ -30,6 +29,7 @@
         </ul>
 
         {% endif %}
+    </div>
     </div>
 
     <br />
@@ -45,24 +45,27 @@
 
      <hr />
     
+ <h3>Discuss Amongst Yourselves</h3>
 
-    {% get_comment_count for entry as c_count %}
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rdw'; // required: replace example with your forum shortname
+    var disqus_identifier = '{{ entry.slug }}';
+    var disqus_url = 'http://ropeadopandwink.com{{ entry.get_absolute_url }}';
 
-    <h3>Public Comments</h3>
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
 
-    {% if c_count > 0 %}
-        {% render_comment_list for entry %}
-
-    {% else %}
-
-        <p>No comments, add yours to get the conversation started</p>
-   
- {% endif %}
-
-        <div id="comment-form">
-        <h3>Add A Comment</h3>
-        {% render_comment_form for entry %}
-        </div>
+    
     
 {% endblock %}
 

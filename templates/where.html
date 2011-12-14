@@ -1,46 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
-  <!--[if lt IE 8]>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
-  <![endif]-->
+{% extends "labs_base.html" %}
 
-   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> 
-   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-    <title>{% block title-tag %}Rope A Dope And Wink{% endblock %}</title>
-</head>
+    {% block extra-head %}
 
-<div class="container">
-<body>
-<div id="top-header">
-    <div id="main-title" class="span-10">
-        <a href='/'><h1>Rope A Dope And Wink</h1></a>
-    </div>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> 
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    {% endblock %}
 
-    
-    <div id="main-nav" class="span-11 right">
-        <ul>
-            <li><a href="{% url entry_list %}">Blog</a> |</li>
-            <li><a href="/steven-ciraolo/">Portfolio and Contact</a></li>
-        </ul>
-    </div>
-</div>
+    {% block title-tag %}Where | Rope A Dope And Wink{% endblock %}
 
 
 
-<div id="content" class="span-5">
-    <h2 class="where">Where in the world am I?</h2>
-    <button id="geo">Click to Find Out</button>
-</div>
-
-        <div id="gmap" style="width:600px; height:500px; float:right;">
+    {% block sidebar %}
+        <div class="where_is">
+            <h3>Find something to do.</h3>
+ 
+            <div class="choice-radio">
+                <input type="radio" name="location_lookup" value="current_loc">Where you are</input>
+                <input type="radio" name="location_lookup" value="city-select">Explore a Major City</input>
+            </div>
+            <div class="loc_choice">
+                <select id="city-select" class="chooser">
+                    <option value="san-francisco">San Francisco</option>
+                    <option value="los-angeles">Los Angeles</option>
+                    <option value="new-york">New York</option>
+                    <option value="chicago">Chicago</option>
+                </select>
+                <div id="current_loc" class="chooser"></div>
+            </div>
+       </div>
+        <div class="yelp-box">
+            <select id="yelp-select">
+                <option value="choose">Choose An Activity</option>
+                <option value="sportsteams">Pro Sports</option>
+                <option value="musicvenue">Music</option>
+                <option value="coffee">Coffee</option>
+                <option value="icecream">Ice Cream</option>
+                <option value="french">French</option>
+                <option value="chinese">Chinese</option>
+                <option value="burgers">Burgers</option>
+            </select>
+            <div class="loader">
+                <p>Loading...</p>
+                <img src="{{ STATIC_URL }}images/wait20trans.gif" />
+            </div>
+            <div class="reviews">
+            </div>
         </div>
-    
-<div id="footer">
+            
+   
+    {% endblock %}
+
+    {% block content %}
+        <div id="gmap">
+        </div>
+    {% endblock %}
+      
+    <div class="footer">
     {% block footer %}
     <hr>
 
@@ -51,19 +66,47 @@
 
 
            
-{% endblock %}
 
+<script type="text/javascript" src="{{ STATIC_URL }}js/less-1.1.5.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/yelp.js"></script>
 <script type="text/javascript">
+var loc_info = {};
 
-$('#geo').bind('click', function(){
-  navigator.geolocation.getCurrentPosition(getMap);
+$('input[type=radio]').change(function(){
+    console.log('starting eventH');
+    var elem_val = $(this).prop('checked',true).val();
+    console.log(elem_val);
+    $('div.loc_choice>.chooser').css('display','none');
+    if (elem_val === 'current_loc'){
+        console.log('firing getCP');
+        
+        navigator.geolocation.getCurrentPosition(getMap);
+    }
+    else {
+            $('#city-select').css('display','block');
+        }
+    });
+
+$('#city-select').bind('click',function(){ 
+    var elem_val = $(this + 'option:selected').val();
+    getMap(elem_val);
+    $('#city-select').css('display','block');
+    $('#yelp-select').css('display','block');
 });
+        
+$('#yelp-select').bind('click',function (){
+    var choice = $(this + ':selected').val();
+    getTagList(choice);
+});
+
+$('#get_venue').css('display','none');
 
 function getAddy(latlong){
   var gc = new google.maps.Geocoder();
   gc.geocode({'latLng': latlong}, function(result,status){
       if (status == google.maps.GeocoderStatus.OK) {
-        $('#content').append('<p>' + result[0]["formatted_address"] + '</p>');
+        $('#current_loc').append('<p><b>Address</b>' + result[0]["formatted_address"] + '</p>')
+                         .css('display','block');
         }
       else {
         alert('Errooooorrrrr' + status);
@@ -77,8 +120,26 @@ function show_map(position) {
   alert(latitude + '  ' + longitude)
 }
 
+function appendCurrentLoc(lat,long){
+   $('#current_loc').append('<p><b>Latitude: </b>' + lat + '</p><p><b>Longitude: </b>' + long + '</p>');
+    $('#yelp-select').css('display','block');
+}
 function getMap(position) {
+  $('div.loc_choice>.chooser').css('display','none');
+  if (typeof position === 'string') {
+      console.log('pos is ' + position);
+      if (cities[position]){
+          loc_info.lat = cities[position].lat;
+          loc_info.long = cities[position].long;
+          var latlng = new google.maps.LatLng(loc_info.lat, loc_info.long);
+        }
+    }
+  else {
+    console.log('current loc gm');
+    loc_info.lat = position.coords.latitude;
+    loc_info.long = position.coords.longitude;
     var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    }
     var myOptions = {
       zoom: 13,
       center: latlng,
@@ -90,9 +151,15 @@ function getMap(position) {
       position: latlng, 
       map: map
     });
-    $('#geo').replaceWith('<p>lat:' + position.coords.latitude + ' long:' + position.coords.longitude + '</p>');
+    $('div.loc_choice img').css('display','none');
+    if(typeof position !== 'string'){
     getAddy(latlng);
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    appendCurrentLoc(lat,long);
+    }
 }
+    
 
 
 function placeMarker(location) {
@@ -102,7 +169,6 @@ function placeMarker(location) {
   });
 }
 </script>
-
+{% endblock %}
 </body>
 </div>
-</html>

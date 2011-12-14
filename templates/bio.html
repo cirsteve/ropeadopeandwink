@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block title-tag %}Steven Ciraolo | Rope A Dope And Wink{% endblock %}
+
+{% block sectionhead %}
+    <h2>Testing ground and idea dump for Steven Ciraolo.</h2>
+{% endblock %}
+
 {% block sidebar %}
 <div id="contact-form">
 <div class="sidebar-header">
-<h3>Contact Me</h3>
+<h4>Contact Me</h4>
 </div>
 
     <form  id="json-contact-form" action="{% url json-contact %}" method="post">{% csrf_token %}
         <div id="jsonwrapper">
-
-        <p id="jsontarget">Let me know what you think</p>
 
         {{ form.non_field_errors }}
         {{ form.as_p }}
@@ -26,20 +29,14 @@
 {% block content %}
 
 <div id="bio-page">
-    <h2>Testing ground and idea dump for Steven Ciraolo.</h2>
     
-    <p>The potential for change represented by the internet and other ongoing innovations in communications has the potential to make Johannes Gutenberg's impact look like Steve Gutenberg's on cinema. I would like to be a part of that innovation.<p>
-    <p>I created this blog with tremendous assistance from the django web framework along with several other open source technologies including but not limited to:</p>
-    <ul>
-        <li>Ubunutu</li>
-        <li>Apache and Nginx servers</li>
-        <li>PostgresSQL and MemCached</li>
-        <li>jQuery and BluePrint CSS</li>
-    </ul>
+    <p>The potential for change represented by the internet and other ongoing innovations in communications has the potential to make Johannes Gutenberg's impact on information distribution look like Steve Gutenberg's on cinema. I would like to be a part of that innovation.<p>
+    
     <br>
    <h3>What I Am Working On</h3>
    <p>The code for some of my efforts including this site can be seen at <a href="http://github.com/cirsteve/">Github</a></p>
-
+   <p>I also have a bookmarking/study platform that I am developing at <a href="http://courseslate.com/">CourseSlate</a></p>
+   <p>If you are lost and for some reason decided to browse my site you can <a href="{% url where %}">find your location</a> here.</p>
 </div>
 {% endblock %}
 

@@ -2,16 +2,19 @@
 {% load tagging_tags %}
 
 {% block content %}
+
 <h2>Articles Tagged with {{ tag.name }}</h2>
+<div class="entry-list">
 <ul>
 {% for t in tag_list %}
     <li>
     <a href='{{ t.get_absolute_url }}'>{{ t.title }}</a>
-    <p>Posted on {{ t.date }} in {{ t.category }}</p>
+    <p>Posted on {{ t.date }} in <a href="(( t.category.get_absolute_url }}">{{ t.category }}</a></p>
     </li>
 
 {% endfor %}
 </ul>
+</div>
 
 
 

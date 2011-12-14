@@ -1,18 +1,46 @@
 /* 08295C dark blue, 9FA49B grey, 37330F brown, 707B51 olive, 786252 dark grey, 4D88E8 light blue */
+@import url(http://fonts.googleapis.com/css?family=Rosario);
+
+h1,h2,h3,h4,#section-head a,#sidebar a,#top-header a  {font-family: 'Rosario', sans-serif;}
+
+
 a {
     color:#08295C;
 }
 
 p {
-    font-size:1.3em
+    font-size:1.1em
 }
 
 li {
     font-size:1.25em
 }
 
+div#main-title a { text-decoration: none;}
+
+
+#ring {
+    text-align:center;
+    border:2px solid black;
+    height: 300px;
+    margin: 0 auto;
+    width: 700px;
+}
+
+#rdwink {
+       padding-top: 50px;
+}
+
+#wink {
+    display:inline-block;
+}
+
 h2 {
     color: #08295C
+}
+
+h2.where {
+    display:inline;
 }
 
 .hidden {
@@ -43,14 +71,22 @@ h2 {
 
 #top-header {
     background-color: #9FA49B;
+    background: -moz-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: -webkit-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: -ms-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: -o-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: linear-gradient(top,#9FA49B 75%,#08295C);
     padding-top: .25em;
     height: 50px;
-    border-bottom: thick solid #08295C;
     margin-bottom: 5px
 }
 
 #main-title h1{
-    color: #ffffff    
+    color: #ffffff;    
+}
+
+#main-title h1:hover{
+    color: #08295C;   
 }
 
 #main-nav li{
@@ -60,12 +96,12 @@ h2 {
 
 #main-nav a{
     color: #08295C;
-    background-color: #9FA49B
+    text-decoration: none;
 }
 
 #main-nav a:hover{
-    color: #9FA49B;
-    background-color: #08295C
+    color: #FFFFFF;
+    border-top: 2px solid #08295C;
 }
 
 #section-head {
@@ -137,16 +173,25 @@ h2 {
     margin: 0px;
     width: 334px;
     background-color: #08295C;
+    background: -moz-linear-gradient(top,#08295C,#9FA49B);
+    background: -webkit-linear-gradient(top,#08295C,#9FA49B);
+    background: -ms-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: -o-linear-gradient(top,#9FA49B 75%,#08295C);
+    background: linear-gradient(top,#9FA49B 75%,#08295C);
 }
 
-.sidebar-header h3 {
+.sidebar-header h4 {
     text-align: center;
     color: #9FA49B;
-    font-size: 1.3em;
+    font-size: 1em;
     margin: 0px;
     background-color: #08295C;
-    border-bottom: dashed #9FA49B;
-    margin-bottom: .5em
+    margin-bottom: .5em;
+    background: -moz-linear-gradient(top,#08295C 75%,#9FA49B);
+    background: -webkit-linear-gradient(top,#08295C 75%,#9FA49B);
+    background: -ms-linear-gradient(top,#08295C 75%,#9FA49B);
+    background: -o-linear-gradient(top,#08295C 75%,#9FA49B);
+    background: linear-gradient(top,#08295C 75%,#9FA49B);
 }
 
 #content {
@@ -154,7 +199,7 @@ h2 {
 }
 
 #content a {
-    font-size: 1.25em
+    font-size: 1.1em
 }
 
 #content h2 {
@@ -209,7 +254,7 @@ h2 {
     font-size: 1.25em
 }
 
-
+    
 
 /* Forms */
 

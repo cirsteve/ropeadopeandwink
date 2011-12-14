@@ -14,6 +14,12 @@ from entry.views import EntryListView
 class HomeView(TemplateView):
     template_name = "home.html"
     
+class WhereView(TemplateView):
+    template_name = "where.html"
+    
+class LabsView(TemplateView):
+    template_name = "labs_home.html"
+    
 class BioView(TemplateView):
     template_name = 'bio.html'
     
@@ -37,5 +43,8 @@ urlpatterns = patterns('',
     url(r'^contact/', include('ez_contact.urls')),
     url(r'^blog/', include('entry.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', EntryListView.as_view(), name="home"),
+    url(r'^ropeadope/$', HomeView.as_view(), name="home"),
+    url(r'^labs/$', LabsView.as_view(), name="labs"),
+    url(r'^labs/where/$', WhereView.as_view(), name="where"),
+    url(r'^$', EntryListView.as_view()),
 )

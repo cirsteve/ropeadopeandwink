@@ -1,79 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/print.css" type="text/css" media="print" />
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet/less" href="{{ STATIC_URL }}css/bootstrap/lib/bootstrap.less" type="text/css" />
+  <link rel="stylesheet/less" href="{{ STATIC_URL }}css/style.less" type="text/css" />
+  <script type="text/javascript" src="{{ STATIC_URL }}js/less-1.1.5.min.js"></script>
   <!--[if lt IE 8]>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
 
    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script> 
-  
+  {% block extra-head %}{% endblock %}
     <title>{% block title-tag %}Rope A Dope And Wink{% endblock %}</title>
 </head>
-
-<div class="container">
 <body>
-<div id="top-header">
-    <div id="main-title" class="span-10">
-	    <a href='/'><h1>Rope A Dope And Wink</h1></a>
+
+    <div class="top-header">
+        <div class="container-fluid">
+            <div class="main-title">
+                <a href='/'>
+                    <h1>Rope A Dope And Wink</h1>
+                </a>
+            </div>
+
+            <div class="main-nav">
+                <ul>
+                    <a href="{% url entry_list %}"><li>Blog</li></a>
+                    <a href="/steven-ciraolo/"><li>Portfolio & Contact</li></a>
+                    <a href="/labs/"><li>Labs</li></a>
+                </ul>
+            </div>
+        </div>
     </div>
 
+    <div class="sub-nav">
+        <div class="container-fluid">
+            <div class="section-head" class="">
+                {% block sectionhead %}{% endblock %}
+            </div>
+
+            <div class="sub-info">
     
-    <div id="main-nav" class="span-11 right">
-        <ul>
-	        <li><a href="{% url entry_list %}">Blog</a> |</li>
-	        <li><a href="/steven-ciraolo/">Portfolio and Contact</a></li>
-        </ul>
+                <p>"come with me and you'll be in a world of pure imagination"- W. Wonka</p>
+
+
+                <a id="contact-trigger">Feedback and criticism encouraged.</a>
+
+                <form class="hidden right" id="json-contact-base" action="{% url json-contact %}" method="post">{% csrf_token %}
+                    <div id="jsonwrapper">
+
+
+
+                        {{ contactform.non_field_errors }}
+                        {{ contactform.as_p }}
+                        <input id ="formsubmit" type="submit" value="Submit" />
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
     </div>
-</div>
-
-
-<div id="sectionhead" class="span-14">
-	{% block sectionhead %}{% endblock %}
-</div>
-
-<div id="short-description" class="span-8 colborder right">
-    
-    <p>"come with me and you'll be in a world of pure imagination"- W. Wonka</p>
-
-
-    <a id="contact-trigger">Feedback and criticism encouraged.</a>
-
-<form class="nidden colborder right" id="json-contact-base" action="{% url json-contact %}" method="post">{% csrf_token %}
-        <div id="jsonwrapper">
 
 
 
-        {{ contactform.non_field_errors }}
-        {{ contactform.as_p }}
-        <input id ="formsubmit" type="submit" value="Submit" />
+    <div class="container-fluid">
+        <div class="sidebar">
+            {% block sidebar %}{% endblock %}
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
 
-</form>
 
-</div>
-
-
-
-
-
-<div id="content" class="span-14">
-    {% block content %}{% endblock %}
-</div>
-
-<div id="sidebar" class="span-8 colborder right">
-	{% block sidebar %}{% endblock %}
-</div>
     
-<div id="footer">
-    {% block footer %}
-    <hr>
+        <div class="footer">
+        {% block footer %}
+        <hr>
 
-    {% endblock %}
-</div>
-
+        {% endblock %}
+        </div>
+    </div>
 {% block footer-scripts %}
 
 
@@ -83,7 +89,8 @@
 <script type="text/javascript">
 
 jQuery('#contact-trigger').click(function() {
-    jQuery('#json-contact-base').toggleClass('nidden');
+    jQuery('#json-contact-base').toggleClass('hidden')
+                                .css({'position':'absolute','z-index':'10'});
 });
 
 jQuery(function() {
@@ -107,5 +114,5 @@ jQuery(function() {
 </script>
 
 </body>
-</div>
+
 </html>

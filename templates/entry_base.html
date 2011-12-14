@@ -2,50 +2,7 @@
 {% load tagging_tags %}
 {% load entry_tags %}
 
-{% block sidebar %}
 
-    <div id="recent-posts">
-
-        <div class="sidebar-header">
-
-            <h4>Recent Posts</h4>
-
-        </div>
-
-    </div>
-
-    {% recent_posts %}
-    
-    <div id="category-list">
-
-        <div class="sidebar-header">
-        
-            <h4>Categories</h4>
-    
-        </div>
-
-             {% cat_list %}
-
-    </div>
-
-    <div class="tag-list">
-
-    <div class="sidebar-header">
-	
-        <h4>Tags:</h4>
-    
-    </div>
-	
-    {% tag_cloud_for_model entry.Entry as tagc %}
-    
-    <ul>
-	
-    {% for tag in tagc %}
-		<li><a href='{% url entry_tag_detail tag.id %}'>{{ tag.name }}</a></li>
-	{% endfor %}
-    </ul>
-    </div>
-{% endblock %}
 
 {% block sectionhead %}
 <div id="section-head">
@@ -54,18 +11,67 @@
 
 	<ul>
 		<li>
-            <a href="{% url entry_category_list %}">Categories</a>
-
-           
+            <a href="{% url entry_category_list %}">Categories</a>          
         </li>
 
-		<li><a href="{% url entry_tag_list %}">Tags</a></li>
+		<li>
+            <a href="{% url entry_tag_list %}">Tags</a>
+        </li>
 	</ul>
 
 
 
     
 </div>
+
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="sidebox">
+
+        <div class="sidebar-header">
+
+            <h4>Recent Posts</h4>
+
+        </div>
+
+    
+
+    {% recent_posts %}
+
+    </div>
+    
+    <div class="sidebox">
+
+        <div class="sidebar-header">
+        
+            <h4>Categories</h4>
+    
+        </div>
+
+        {% cat_list %}
+
+    </div>
+
+    <div class="sidebox">
+
+        <div class="sidebar-header">
+    
+            <h4>Tags:</h4>
+    
+        </div>
+    
+    {% tag_cloud_for_model entry.Entry as tagc %}
+    
+        <ul class="tag-list">
+    
+    {% for tag in tagc %}
+            <li><a href='{% url entry_tag_detail tag.id %}'>{{ tag.name }}</a></li>
+    {% endfor %}
+        </ul>
+    </div>
+
 {% endblock %}
 
 {% block footer-scripts %}

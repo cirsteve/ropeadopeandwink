@@ -2,12 +2,14 @@
 {% load tagging_tags %}
 
 {% block content %}
-    <h3>All Blog Tags</h3>
-        <ul>
-            {% for t in tag_list %}
-                <li>
-                <a href='/blog/tags/{{ t.id }}/'>{{ t.name }} -- {{ t.count }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+<div class="entry-list">
+    <h2>All Blog Tags</h2>
+    <ul>
+    {% for t in tag_list %}
+        <li>
+            <a href='/blog/tags/{{ t.id }}/'>{{ t.name }} - {{ t.count }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

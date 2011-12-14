@@ -1,0 +1,11 @@
+--2011-12-12 21:43:09--  http://api.yelp.com/business_review_search?term=bars
+Resolving api.yelp.com... 199.255.189.46, 199.255.189.146
+Connecting to api.yelp.com|199.255.189.46|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 121 [text/plain]
+Saving to: `business_review_search?term=bars.1'
+
+     0K                                                       100% 13.4M=0s
+
+2011-12-12 21:43:10 (13.4 MB/s) - `business_review_search?term=bars.1' saved [121/121]
+
