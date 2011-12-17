@@ -72,6 +72,11 @@
 <script type="text/javascript">
 var loc_info = {};
 
+var cities = {"san-francisco":{"lat":37.7721,"long":-122.4386},
+              "new-york":{"lat":40.7244,"long":-73.9560},
+              "los-angeles":{"lat":34.0522,"long":-118.2437},
+              "chicago":{"lat":41.8755,"long":-87.6440}};
+
 $('input[type=radio]').change(function(){
     console.log('starting eventH');
     var elem_val = $(this).prop('checked',true).val();
