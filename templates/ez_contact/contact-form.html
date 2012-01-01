@@ -1,0 +1,20 @@
+ <script type="text/javascript">
+ var RecaptchaOptions = {
+    theme : 'white'
+ };
+ </script>          
+
+<form class="right" id="json-contact-base" action="{% url json-contact %}" method="POST">{% csrf_token %}
+    <div id="jsonwrapper">
+
+
+
+        {{ contactform.name_of_field.errors }}
+        {{ contactform.as_p }}
+        <div class="recaptcha-div">{{ contactform.recaptcha }}{% if contactform.recaptcha.errors %}<div class="errmsg">{{ contactform.recaptcha.errors|join:", " }}</div>{% endif %}<br />
+        </div>
+        <input id ="formsubmit" type="submit" value="Submit" />
+        <input type="reset" value="Reset">
+    </div>
+
+</form>

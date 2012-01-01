@@ -4,9 +4,7 @@
   <link rel="stylesheet/less" href="{{ STATIC_URL }}css/bootstrap/lib/bootstrap.less" type="text/css" />
   <link rel="stylesheet/less" href="{{ STATIC_URL }}css/style.less" type="text/css" />
   <script type="text/javascript" src="{{ STATIC_URL }}js/less-1.1.5.min.js"></script>
-  <!--[if lt IE 8]>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
-  <![endif]-->
+
 
    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script> 
   {% block extra-head %}{% endblock %}
@@ -44,19 +42,9 @@
                                    The more truth we have to work with, the richer we become."- Kurt Vonnegut, Breakfast of Champions</p>
 
 
-                <a id="contact-trigger">Feedback and criticism encouraged.</a>
+              {#  <a id="contact-trigger">Feedback and criticism encouraged.</a> #}
 
-                <form class="hidden right" id="json-contact-base" action="{% url json-contact %}" method="post">{% csrf_token %}
-                    <div id="jsonwrapper">
-
-
-
-                        {{ contactform.non_field_errors }}
-                        {{ contactform.as_p }}
-                        <input id ="formsubmit" type="submit" value="Submit" />
-                    </div>
-
-                </form>
+              {#  {% include "ez_contact/contact-form.html" %} #}
 
             </div>
         </div>
@@ -88,14 +76,13 @@
 {% endblock %}
 
 <script type="text/javascript">
-
-jQuery('#contact-trigger').click(function() {
-    jQuery('#json-contact-base').toggleClass('hidden')
-                                .css({'position':'absolute','z-index':'10'});
+$('#contact-trigger').bind('click',function() {
+    $('#json-contact-base').slideToggle('slow')
+                           .css({'position':'absolute','z-index':'10'});
 });
 
 jQuery(function() {
-      var form = jQuery("#json-contact-base");
+      var form = $("#json-contact-base");
       form.submit(function(e) {
           jQuery("#formsubmit").attr('disabled', true)
           jQuery("#contact-trigger").prepend('<span>Sending message, please wait... </span>')

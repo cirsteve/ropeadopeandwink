@@ -11,15 +11,8 @@
 <h4>Contact Me</h4>
 </div>
 
-    <form  id="json-contact-form" action="{% url json-contact %}" method="post">{% csrf_token %}
-        <div id="jsonwrapper">
+  {% include "ez_contact/contact-bio.html" %}
 
-        {{ form.non_field_errors }}
-        {{ form.as_p }}
-        
-        </div>
-        <input id ="formsubmit" type="submit" value="Submit" />
-    </form>
 </div>
 
 
@@ -43,22 +36,31 @@
 
 {% block footer-scripts %}
 <script type="text/javascript">
-jQuery(function() {
-      var form = jQuery("#json-contact-form");
-      form.submit(function(e) {
-          jQuery("#formsubmit").attr('disabled', true)
-          jQuery("#jsontarget").prepend('<span>Sending message, please wait... </span>')
-          jQuery("#jsonwrapper").load(
-              form.attr('action') + ' #jsonwrapper',
-              form.serializeArray(),
-              function(responseText, responseStatus) {
-                  jQuery("#formsubmit").attr('disabled', false)
-                  jQuery("#jsonwrapper").html('<b>Your Message Was Sent</b>')
-              }
-          );
-          e.preventDefault(); 
-      });
-  });
+
+function sendContact(e) {
+    e.preventDefault();
+    var form = $(e.target);
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+        dataType: "json",
+        success: function(data, responseStatus, jqXHR){
+            if (data.sent === 'True'){
+                form.replaceWith('<p>Message Successfully Sent</p>');
+            }
+            else {
+                form.replaceWith(data.form_html);
+            }
+        }
+        }); 
+  };
+
+
+$("form#json-contact-bio").submit(function(e){
+    sendContact(e);
+});
+
 </script>
 
 {% endblock %}

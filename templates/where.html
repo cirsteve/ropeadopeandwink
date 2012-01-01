@@ -20,6 +20,7 @@
             </div>
             <div class="loc_choice">
                 <select id="city-select" class="chooser">
+                    <option value="choose">Choose An Activity</option>
                     <option value="san-francisco">San Francisco</option>
                     <option value="los-angeles">Los Angeles</option>
                     <option value="new-york">New York</option>
@@ -31,13 +32,21 @@
         <div class="yelp-box">
             <select id="yelp-select">
                 <option value="choose">Choose An Activity</option>
-                <option value="sportsteams">Pro Sports</option>
-                <option value="musicvenue">Music</option>
                 <option value="coffee">Coffee</option>
                 <option value="icecream">Ice Cream</option>
+                <option value="italian">Italian</option>
+                <option value="mexican">Mexican</option>
                 <option value="french">French</option>
                 <option value="chinese">Chinese</option>
+                <option value="filipino">Filipino</option>
+                <option value="delis">Deli</option>
+                <option value="bbq">Barbeque</option>
                 <option value="burgers">Burgers</option>
+                <option value="grocery">Grocery</option>
+                <option value="galleries">Art Galleries</option>
+                <option value="musicvenues">Music Venues</option>
+                <option value="bikerentals">Bike Rentals</option>
+                <option value="hiking">Hiking</option>
             </select>
             <div class="loader">
                 <p>Loading...</p>
@@ -67,15 +76,34 @@
 
            
 
-<script type="text/javascript" src="{{ STATIC_URL }}js/less-1.1.5.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/yelp.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/gmap.js"></script>
 <script type="text/javascript">
 var loc_info = {};
+var map;
 
 var cities = {"san-francisco":{"lat":37.7721,"long":-122.4386},
               "new-york":{"lat":40.7244,"long":-73.9560},
               "los-angeles":{"lat":34.0522,"long":-118.2437},
               "chicago":{"lat":41.8755,"long":-87.6440}};
+
+$('.reviews').delegate('button.review-toggle','click',function(){
+    var clicked = $(this);
+    console.log('clicky: ' + clicked.hasClass('noshow'));
+    if (clicked.hasClass('noshow')){
+        clicked.removeClass('noshow')
+               .text('Hide Reviews')
+               .siblings('.y-review')
+               .css('display','block');
+        }
+    else {
+        clicked.addClass('noshow')
+               .text('Show Reviews')
+               .siblings('.y-review')
+               .css('display','none');
+        }
+    });
+        
 
 $('input[type=radio]').change(function(){
     console.log('starting eventH');
@@ -92,15 +120,16 @@ $('input[type=radio]').change(function(){
         }
     });
 
-$('#city-select').bind('click',function(){ 
+$('#city-select').bind('change',function(){ 
     var elem_val = $(this + 'option:selected').val();
     getMap(elem_val);
     $('#city-select').css('display','block');
     $('#yelp-select').css('display','block');
 });
         
-$('#yelp-select').bind('click',function (){
-    var choice = $(this + ':selected').val();
+$('#yelp-select').bind('change',function (){
+    var choice = $('#yelp-select option:selected').val();
+    console.log('Choice is: ' + choice);
     getTagList(choice);
 });
 
@@ -126,9 +155,10 @@ function show_map(position) {
 }
 
 function appendCurrentLoc(lat,long){
-   $('#current_loc').append('<p><b>Latitude: </b>' + lat + '</p><p><b>Longitude: </b>' + long + '</p>');
+    $('#current_loc').append('<p><b>Latitude: </b>' + lat + '</p><p><b>Longitude: </b>' + long + '</p>');
     $('#yelp-select').css('display','block');
 }
+
 function getMap(position) {
   $('div.loc_choice>.chooser').css('display','none');
   if (typeof position === 'string') {
@@ -137,16 +167,22 @@ function getMap(position) {
           loc_info.lat = cities[position].lat;
           loc_info.long = cities[position].long;
           var latlng = new google.maps.LatLng(loc_info.lat, loc_info.long);
+          var myOptions = {
+                        zoom: 12,
+                      center: latlng,
+                   mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+           map = new google.maps.Map(document.getElementById("gmap"),
+                myOptions);
         }
-    }
+  }
   else {
     console.log('current loc gm');
     loc_info.lat = position.coords.latitude;
     loc_info.long = position.coords.longitude;
     var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    }
     var myOptions = {
-      zoom: 13,
+      zoom: 12,
       center: latlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -154,8 +190,10 @@ function getMap(position) {
         myOptions);
     var marker = new google.maps.Marker({
       position: latlng, 
-      map: map
+           map: map,
     });
+    }
+    $('#gmap').fadeIn('slow');
     $('div.loc_choice img').css('display','none');
     if(typeof position !== 'string'){
     getAddy(latlng);
@@ -167,10 +205,12 @@ function getMap(position) {
     
 
 
-function placeMarker(location) {
+function placeMarker(location,id) {
   var marker = new google.maps.Marker({
       position: location, 
-      map: map
+           map: map,
+     animation: google.maps.Animation.DROP,
+            id: id
   });
 }
 </script>

@@ -219,17 +219,6 @@ p {
     }
 }
 
-#json-contact-base {
-    background-color: @des-light-navy;
-    width: 290px;
-    label {
-        font-size: 1.3em;
-        text-align: left;
-        color: @navy;
-        }
-    }
-
-
 .section-head {
     width:600px;
     padding: 2px;
@@ -339,10 +328,11 @@ p {
     }       
     div#gmap {
         width:600px;
-        height:500px;
+        height:600px;
         padding:0;
         margin: auto;
-        border:1px;
+        border:5px solid white;
+        display: none;
     }
 
 }
@@ -410,8 +400,23 @@ ul.tag-list {
 }
 
 .reviews {
-    img {
+
+    .listing-info {
+        width: 140px;
+        float: left;
+    }
+    img.listing-img {
         border: 2px solid #ffffff;
+        float: right;
+        margin-right:10px;
+        margin-bottom:5px;
+        
+    }
+    .y-review {
+        clear:both;
+        display:none;
+        overflow:hidden;
+        z-index:-1;
     }
 }
 
@@ -421,6 +426,17 @@ ul.tag-list {
     .box-shadow(-2px,2px,10px,.8);
     margin: 4px 1px;
     padding: 4px;
+    button {
+            margin: auto;
+            display:block;
+            width:125px;
+            clear:both;
+            &:hover {
+                background-color:@dark-olive;
+                color: @light-olive;
+            }
+
+        }
     }
     
     
@@ -443,17 +459,27 @@ form#json-contact-form {
     }
 }
 
+#json-contact-base {
+    display: none;
+    width:320px;
+    background-color: @des-light-navy;
+    label {
+        font-size: 1.3em;
+        text-align: left;
+        color: @navy;
+        }
+    }
+
 select {
     margin: 5px 2px;
 }
 
 button {
-    padding:5px;
-    font-size: 1.2em;
-    border:1px solid @dark-grey;
-    border-radius: 5px;
-    .box-shadow(2px, 1px, 10px, .8);
-    background-color: @grey;
+    font-size: 1.3em;
+    padding: 2px;
+        border: 2px solid @dark-olive;
+    .border-radius(5px);
+    .box-shadow(0, 0, 10px, .8);
 }
 
 .where_is {
@@ -474,14 +500,6 @@ select#yelp-select{
     }
     
 
-button#geo {
-    font-size: 1.3em;
-    padding: 2px;
-        border: 2px solid @dark-olive;
-    .border-radius(5px);
-    .box-shadow(0, 0, 10px, .8);
-}
-
 /*small screen media */
 
 @media only screen and (max-width:700px){
@@ -492,4 +510,22 @@ button#geo {
         clear:left;
         float:left;
     }
+}
+
+/* ReCaptcha style */
+
+table#recaptcha_table.recaptchatable.recaptcha_theme_white {
+    width: 300px!important;
+}
+
+#recaptcha_widget_div {
+    width: 320px!important;
+}
+
+.recaptcha-div {
+    width:320px;
+}
+
+iframe {
+    width:300px;
 }
