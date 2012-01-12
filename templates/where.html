@@ -20,7 +20,7 @@
             </div>
             <div class="loc_choice">
                 <select id="city-select" class="chooser">
-                    <option value="choose">Choose An Activity</option>
+                    <option value="choose">Choose A City</option>
                     <option value="san-francisco">San Francisco</option>
                     <option value="los-angeles">Los Angeles</option>
                     <option value="new-york">New York</option>
@@ -60,7 +60,11 @@
     {% endblock %}
 
     {% block content %}
-        <div id="gmap">
+        <div class="map-box">
+            <div class="map-data">
+            </div>
+            <div id="gmap">
+            </div>
         </div>
     {% endblock %}
       
@@ -81,6 +85,25 @@
 <script type="text/javascript">
 var loc_info = {};
 var map;
+var mapl;
+var gmapl;
+
+window.onload = function(){
+    mapl = $(".map-box").offset().left;
+}
+
+window.onscroll = function(){
+    var mapb = $(".map-box");
+    var topS = $(window).scrollTop();
+    gmapl = $("#gmap").offset().left;
+    if(topS > 240){
+        mapb.css({'position':'fixed','top':0,'left':mapl});
+    }
+    else {
+        mapb.css({'position':'static'});
+    }
+    $("#gmap").offset({left:gmapl});
+}
 
 var cities = {"san-francisco":{"lat":37.7721,"long":-122.4386},
               "new-york":{"lat":40.7244,"long":-73.9560},

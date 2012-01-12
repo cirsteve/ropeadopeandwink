@@ -91,5 +91,6 @@ function showData(data) {
         $('.reviews .listing:last .review-set').prepend('<button class="review-toggle noshow" type="button">Show Reviews</button>');
     });  
     $('.reviews').prepend('<b>Average Rating of ' + Math.round(group_avg/buss.length * 100)/100 + ' for Group of ' +  buss.length + '</b>');
+    
 }
 
